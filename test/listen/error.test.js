@@ -60,19 +60,18 @@ describe("error", () => {
       await promise;
     });
 
-
     test("await .listen()", async (t) => {
       t.plan(3);
 
       const server = createServer({}, handler);
       t.assert.strictEqual(server.listening, false);
 
-      await server.listen()
+      await server.listen();
       const addresses = server.addresses();
       t.assert.strictEqual(addresses.length, 2);
 
       try {
-        await server.listen()
+        await server.listen();
       } catch (error) {
         t.assert.strictEqual(error.code, "ERR_SERVER_ALREADY_LISTEN");
       } finally {
@@ -85,12 +84,12 @@ describe("error", () => {
       const server = createServer({}, handler);
       t.assert.strictEqual(server.listening, false);
 
-      await server.listen({ host: '127.0.0.1' })
+      await server.listen({ host: "127.0.0.1" });
       const addresses = server.addresses();
       t.assert.strictEqual(addresses.length, 1);
 
       try {
-        await server.listen({ host: '127.0.0.1' })
+        await server.listen({ host: "127.0.0.1" });
       } catch (error) {
         t.assert.strictEqual(error.code, "ERR_SERVER_ALREADY_LISTEN");
       } finally {
