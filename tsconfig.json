@@ -1,0 +1,8 @@
+{
+  "include": ["./types"],
+  "compilerOptions": {
+    "types": ["node"],
+    "allowJs": true,
+    "noEmit": true
+  }
+}
