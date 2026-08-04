@@ -1,9 +1,9 @@
 const { describe, test } = require("node:test");
-const { createServer } = require("../../lib");
-const { withResolvers } = require("../../lib/utils");
 const os = require("node:os");
 const path = require("node:path");
 const fs = require("node:fs");
+const { createServer } = require("../../lib");
+const { withResolvers } = require("../../lib/utils");
 
 const handler = (_request, response) => {
   response.writeHead(200, { "Content-Type": "application/json" });

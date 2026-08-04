@@ -33,5 +33,17 @@
         "organizeImports": "on"
       }
     }
-  }
+  },
+  "overrides": [
+    {
+      "includes": ["test/security.test.js"],
+      "linter": {
+        "rules": {
+          "suspicious": {
+            "noProto": "off"
+          }
+        }
+      }
+    }
+  ]
 }
