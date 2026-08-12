@@ -34,6 +34,8 @@ updates:
       # Production dependencies with breaking changes
       dependencies:
         dependency-type: "production"
+        patterns:
+          - "*"
       # TypeScript related dependencies
       dev-dependencies-typescript:
         patterns:
@@ -43,3 +45,5 @@ updates:
       # Development dependencies with breaking changes
       dev-dependencies:
         dependency-type: "development"
+        patterns:
+          - "*"
