@@ -1,7 +1,10 @@
+'use strict'
 const { describe, test } = require("node:test");
 const { once } = require("node:stream");
+const http = require("node:http");
 const { createServer } = require("../../lib");
 const { withResolvers } = require("../../lib/utils");
+const { nextTick } = require("node:process");
 
 const handler = (_request, response) => {
   response.writeHead(200, { "Content-Type": "application/json" });
@@ -150,4 +153,28 @@ describe("error", () => {
       await promise;
     });
   });
+
+  test('second server listen error', async (t) => {
+    t.plan(1)
+
+    const httpCreateServer = http.createServer
+    let count = 0
+    const { mock } = t.mock.method(http, 'createServer', (...args) => {
+      const server = httpCreateServer(...args)
+      if (count === 1) {
+        // delay to simulate the error throw in new server
+        nextTick(() => {
+          server.emit('error', new Error('kaboom!'))
+          server.close()
+        })
+      }
+      count++
+      return server
+    })
+    const server = createServer({}, handler);
+    await server.listen()
+    t.assert.strictEqual(server.addresses().length, 1)
+    await server.close()
+    mock.restore()
+  })
 });

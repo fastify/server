@@ -1,3 +1,4 @@
+'use strict'
 const { describe, test } = require("node:test");
 const http = require("node:http");
 const { createServer } = require("../lib");
