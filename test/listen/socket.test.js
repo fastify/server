@@ -1,11 +1,10 @@
-'use strict'
+"use strict";
 const { describe, test } = require("node:test");
 const os = require("node:os");
 const path = require("node:path");
 const fs = require("node:fs");
 const { createServer } = require("../../lib");
 const { withResolvers } = require("../../lib/utils");
-const { once } = require("node:stream");
 
 const handler = (_request, response) => {
   response.writeHead(200, { "Content-Type": "application/json" });
@@ -21,7 +20,7 @@ describe("socket", () => {
     );
     try {
       fs.unlinkSync(sockFile);
-    } catch { }
+    } catch {}
   } else {
     sockPath = `\\\\.\\pipe\\${(`${Math.random().toString(16)}0000000`).slice(2, 10)}-server-sock`;
   }
@@ -53,12 +52,11 @@ describe("socket", () => {
   // Refs: https://github.com/fastify/fastify/pull/6937
   test(".listen({ path, host })", { skip: !sockPath }, async (t) => {
     t.plan(4);
-    const { promise, resolve } = withResolvers();
 
     const server = createServer({}, handler);
     t.assert.strictEqual(server.listening, false);
 
-    await server.listen({ path: sockPath, host: 'localhost' });
+    await server.listen({ path: sockPath, host: "localhost" });
 
     t.assert.strictEqual(server.listening, true);
     const addresses = server.addresses();
@@ -66,5 +64,5 @@ describe("socket", () => {
     t.assert.deepStrictEqual(addresses, [sockPath]);
 
     await server.close();
-  })
+  });
 });

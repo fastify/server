@@ -1,4 +1,4 @@
-'use strict'
+"use strict";
 const { describe, test } = require("node:test");
 const dns = require("node:dns");
 const { createServer } = require("../../lib");

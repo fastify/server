@@ -46,7 +46,7 @@ export interface HTTP2ServerOptions extends CommonServerOptions {
   https?: false;
   http2: true;
   /** @default 72000 */
-  http2SessionTimeout?: number
+  http2SessionTimeout?: number;
 }
 export type HTTP2RequestListener = NodeRequestListener;
 export type HTTP2Server = NodeHTTP2Server;

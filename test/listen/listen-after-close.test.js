@@ -1,4 +1,4 @@
-'use strict'
+"use strict";
 const { describe, test } = require("node:test");
 const { createServer } = require("../../lib");
 const { withResolvers } = require("../../lib/utils");

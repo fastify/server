@@ -1,4 +1,4 @@
-'use strict'
+"use strict";
 const { describe, test } = require("node:test");
 const dns = require("node:dns");
 const os = require("node:os");
@@ -72,7 +72,7 @@ describe("listeningOrigin", () => {
     );
     try {
       fs.unlinkSync(sockFile);
-    } catch { }
+    } catch {}
   } else {
     sockPath = `\\\\.\\pipe\\${(`${Math.random().toString(16)}0000000`).slice(2, 10)}-server-sock`;
   }

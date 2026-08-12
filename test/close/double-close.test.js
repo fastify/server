@@ -6,14 +6,14 @@ const handler = (_request, response) => {
   response.end(JSON.stringify({ data: "Hello World!" }));
 };
 
-describe('double close', () => {
-  test('should not emit close twice', async (t) => {
-    let count = 0
-    const server = createServer({}, handler)
-    server.on('fastify.close', () => count++)
-    await server.listen()
-    await server.close()
-    await server.close()
-    t.assert.strictEqual(count, 1)
-  })
-})
+describe("double close", () => {
+  test("should not emit close twice", async (t) => {
+    let count = 0;
+    const server = createServer({}, handler);
+    server.on("fastify.close", () => count++);
+    await server.listen();
+    await server.close();
+    await server.close();
+    t.assert.strictEqual(count, 1);
+  });
+});

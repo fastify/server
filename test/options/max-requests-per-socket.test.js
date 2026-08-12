@@ -1,4 +1,4 @@
-'use strict'
+"use strict";
 const http = require("node:http");
 const { describe, test } = require("node:test");
 const { once } = require("node:stream");
@@ -43,7 +43,11 @@ describe("maxRequestsPerSocket", () => {
 
   test("http2 + https", (t) => {
     t.plan(1);
-    const server = createServer({ maxRequestsPerSocket: 3, http2: true, https: {} });
+    const server = createServer({
+      maxRequestsPerSocket: 3,
+      http2: true,
+      https: {},
+    });
     t.assert.notStrictEqual(server.maxRequestsPerSocket, 3);
   });
 
