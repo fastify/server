@@ -25,13 +25,13 @@ describe("requestTimeout", () => {
 
   test("http", (t) => {
     t.plan(1);
-    const server = createServer({ requestTimeout: 1 });
+    const server = createServer({ requestTimeout: 1, http: true });
     t.assert.strictEqual(server.requestTimeout, 1);
   });
 
   test("https", (t) => {
     t.plan(1);
-    const server = createServer({ requestTimeout: 2, https: {} });
+    const server = createServer({ requestTimeout: 2, https: true });
     t.assert.strictEqual(server.requestTimeout, 2);
   });
 

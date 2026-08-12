@@ -25,7 +25,7 @@ describe("maxRequestsPerSocket", () => {
 
   test("http", (t) => {
     t.plan(1);
-    const server = createServer({ maxRequestsPerSocket: 1 });
+    const server = createServer({ maxRequestsPerSocket: 1, http: {} });
     t.assert.strictEqual(server.maxRequestsPerSocket, 1);
   });
 
