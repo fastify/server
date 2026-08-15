@@ -100,7 +100,7 @@ describe("dns", () => {
       (hostname, options, callback) => {
         // node:http internally call dns.lookup to resolve localhost
         // we need to alter the first call only
-        if (hostname === "localhost" && mock.callCount() === 1) {
+        if (hostname === "localhost") {
           callback(null, [
             { address: "::1", family: 6 },
             { address: "127.0.0.1", family: 4 },
@@ -120,7 +120,10 @@ describe("dns", () => {
     server.once("fastify.listening", () => {
       t.assert.strictEqual(server.listening, true);
       const addresses = server.addresses();
-      t.assert.strictEqual(addresses.length, 3);
+      // Linux (Ubuntu) with SO_REUSEADDR off will treats
+      // 0.0.0.0 and 127.0.0.1 as the same host
+      // so, we check for >= 2
+      t.assert.strictEqual(addresses.length >= 2, true);
       server.close();
     });
     server.once("fastify.close", () => {

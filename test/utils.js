@@ -1,5 +1,6 @@
 "use strict";
 const { hostname } = require("node:os");
+const { lookup } = require("node:dns");
 const { pki } = require("node-forge");
 
 function buildCertificate() {
@@ -24,12 +25,30 @@ function buildCertificate() {
 
     certificate.sign(privateKey);
 
-    global.context = {
-      privateKey: pki.privateKeyToPem(privateKey),
-      publicKey: pki.publicKeyToPem(publicKey),
-      certificate: pki.certificateToPem(certificate),
-    };
+    global.context ??= {};
+    global.context.privateKey = pki.privateKeyToPem(privateKey);
+    global.context.publicKey = pki.publicKeyToPem(publicKey);
+    global.context.certificate = pki.certificateToPem(certificate);
   }
 }
 
+// same system do not enable IPv6 or do not return IPv6 for localhost
+// even when we specified `{ all: true }`.
+// we need the localhost count for those system to ensure test assert
+// correctly.
+function localhostCount(_, done) {
+  if (!global.context?.localhostCount) {
+    lookup("localhost", { all: true }, (error, addresses) => {
+      if (error) {
+        done(error);
+      } else {
+        global.context ??= {};
+        global.context.localhostCount = addresses.length;
+        done();
+      }
+    });
+  }
+}
+
+module.exports.localhostCount = localhostCount;
 module.exports.buildCertificate = buildCertificate;

@@ -1,7 +1,8 @@
 "use strict";
-const { describe, test } = require("node:test");
+const { describe, test, before } = require("node:test");
 const { createServer } = require("../../lib");
 const { withResolvers } = require("../../lib/utils");
+const { localhostCount } = require("../utils");
 
 const handler = (_request, response) => {
   response.writeHead(200, { "Content-Type": "application/json" });
@@ -9,6 +10,8 @@ const handler = (_request, response) => {
 };
 
 describe("listen again after close", () => {
+  before(localhostCount);
+
   test(".listen()", async (t) => {
     t.plan(6);
     const { promise, resolve } = withResolvers();
@@ -19,7 +22,7 @@ describe("listen again after close", () => {
     server.listen({}, (error) => {
       t.assert.ifError(error);
       const addresses = server.addresses();
-      t.assert.strictEqual(addresses.length, 2);
+      t.assert.strictEqual(addresses.length, global.context.localhostCount);
 
       server.close(() => {
         t.assert.strictEqual(server.listening, false);
@@ -27,7 +30,7 @@ describe("listen again after close", () => {
         server.listen({}, (error) => {
           t.assert.ifError(error);
           const addresses = server.addresses();
-          t.assert.strictEqual(addresses.length, 2);
+          t.assert.strictEqual(addresses.length, global.context.localhostCount);
           server.close(resolve);
         });
       });

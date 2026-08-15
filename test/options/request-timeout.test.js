@@ -1,9 +1,10 @@
 "use strict";
 const http = require("node:http");
-const { describe, test } = require("node:test");
+const { describe, test, before } = require("node:test");
 const { once } = require("node:stream");
 const { createServer } = require("../../lib");
 const { kInternalServers } = require("../../lib/symbols");
+const { localhostCount } = require("../utils");
 
 const handler = (_request, response) => {
   response.writeHead(200, { "Content-Type": "application/json" });
@@ -11,6 +12,8 @@ const handler = (_request, response) => {
 };
 
 describe("requestTimeout", () => {
+  before(localhostCount);
+
   test("[]", (t) => {
     t.plan(1);
     const server = createServer({ requestTimeout: [] });
@@ -63,7 +66,7 @@ describe("requestTimeout", () => {
   });
 
   test("update all servers", async (t) => {
-    t.plan(3);
+    t.plan(1 + global.context.localhostCount);
     const server = createServer({ requestTimeout: 1 }, handler);
     t.assert.strictEqual(server.requestTimeout, 1);
     server.listen();

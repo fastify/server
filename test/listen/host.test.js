@@ -1,7 +1,8 @@
 "use strict";
-const { describe, test } = require("node:test");
+const { describe, test, before } = require("node:test");
 const { createServer } = require("../../lib");
 const { withResolvers } = require("../../lib/utils");
+const { localhostCount } = require("../utils");
 
 const handler = (_request, response) => {
   response.writeHead(200, { "Content-Type": "application/json" });
@@ -9,6 +10,8 @@ const handler = (_request, response) => {
 };
 
 describe("host/port", () => {
+  before(localhostCount);
+
   test(".listen()", async (t) => {
     t.plan(4);
     const { promise, resolve } = withResolvers();
@@ -19,7 +22,7 @@ describe("host/port", () => {
     server.once("fastify.listening", () => {
       t.assert.strictEqual(server.listening, true);
       const addresses = server.addresses();
-      t.assert.strictEqual(addresses.length, 2);
+      t.assert.strictEqual(addresses.length, global.context.localhostCount);
       server.close();
     });
     server.once("fastify.close", () => {
@@ -42,7 +45,7 @@ describe("host/port", () => {
     server.once("fastify.listening", () => {
       t.assert.strictEqual(server.listening, true);
       const addresses = server.addresses();
-      t.assert.strictEqual(addresses.length, 2);
+      t.assert.strictEqual(addresses.length, global.context.localhostCount);
       server.close();
     });
     server.once("fastify.close", () => {
@@ -65,7 +68,7 @@ describe("host/port", () => {
     server.once("fastify.listening", () => {
       t.assert.strictEqual(server.listening, true);
       const addresses = server.addresses();
-      t.assert.strictEqual(addresses.length, 2);
+      t.assert.strictEqual(addresses.length, global.context.localhostCount);
       server.close();
     });
     server.once("fastify.close", () => {
@@ -134,7 +137,7 @@ describe("host/port", () => {
     server.once("fastify.listening", () => {
       t.assert.strictEqual(server.listening, true);
       const addresses = server.addresses();
-      t.assert.strictEqual(addresses.length, 2);
+      t.assert.strictEqual(addresses.length, global.context.localhostCount);
       server.close();
     });
     server.once("fastify.close", () => {
@@ -157,7 +160,7 @@ describe("host/port", () => {
     server.once("fastify.listening", () => {
       t.assert.strictEqual(server.listening, true);
       const addresses = server.addresses();
-      t.assert.strictEqual(addresses.length, 2);
+      t.assert.strictEqual(addresses.length, global.context.localhostCount);
       server.close();
     });
     server.once("fastify.close", () => {
@@ -196,7 +199,7 @@ describe("host/port", () => {
         t.assert.ifError(error);
         t.assert.strictEqual(server.listening, true);
         const addresses = server.addresses();
-        t.assert.strictEqual(addresses.length, 2);
+        t.assert.strictEqual(addresses.length, global.context.localhostCount);
         server.close();
       },
     );
@@ -220,7 +223,7 @@ describe("host/port", () => {
       t.assert.ifError(error);
       t.assert.strictEqual(server.listening, true);
       const addresses = server.addresses();
-      t.assert.strictEqual(addresses.length, 2);
+      t.assert.strictEqual(addresses.length, global.context.localhostCount);
       server.close();
     });
 

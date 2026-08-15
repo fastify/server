@@ -1,10 +1,11 @@
 "use strict";
-const { describe, test } = require("node:test");
+const { describe, test, before } = require("node:test");
 const { once } = require("node:stream");
 const http = require("node:http");
+const { nextTick } = require("node:process");
 const { createServer } = require("../../lib");
 const { withResolvers } = require("../../lib/utils");
-const { nextTick } = require("node:process");
+const { localhostCount } = require("../utils");
 
 const handler = (_request, response) => {
   response.writeHead(200, { "Content-Type": "application/json" });
@@ -12,6 +13,8 @@ const handler = (_request, response) => {
 };
 
 describe("error", () => {
+  before(localhostCount);
+
   describe("ERR_SERVER_ALREADY_LISTEN", () => {
     test(".listen()", async (t) => {
       t.plan(5);
@@ -28,7 +31,7 @@ describe("error", () => {
       server.listen({}, (error) => {
         t.assert.ifError(error);
         const addresses = server.addresses();
-        t.assert.strictEqual(addresses.length, 2);
+        t.assert.strictEqual(addresses.length, global.context.localhostCount);
         server.listen({}, (error) => {
           t.assert.strictEqual(error.code, "ERR_SERVER_ALREADY_LISTEN");
           server.close();
@@ -71,7 +74,7 @@ describe("error", () => {
 
       await server.listen();
       const addresses = server.addresses();
-      t.assert.strictEqual(addresses.length, 2);
+      t.assert.strictEqual(addresses.length, global.context.localhostCount);
 
       try {
         await server.listen();
@@ -112,7 +115,7 @@ describe("error", () => {
       server.listen({}, (error, address) => {
         t.assert.ifError(error);
         const addresses = server.addresses();
-        t.assert.strictEqual(addresses.length, 2);
+        t.assert.strictEqual(addresses.length, global.context.localhostCount);
 
         conflict.listen({ port: address.port }, (error) => {
           t.assert.strictEqual(error.code, "EADDRINUSE");
