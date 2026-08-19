@@ -13,12 +13,30 @@ function buildCertificate() {
     certificate.validity.notBefore = now;
     certificate.validity.notAfter = new Date(Number(now) + 86400000);
     const attrs = [
-      { shortName: "CN", value: hostname() },
-      { shortName: "C", value: "US" },
-      { shortName: "ST", value: "California" },
-      { shortName: "L", value: "San Francisco" },
-      { shortName: "O", value: "Fastify" },
-      { shortName: "OU", value: "Development Team" },
+      {
+        shortName: "CN",
+        value: hostname(),
+      },
+      {
+        shortName: "C",
+        value: "US",
+      },
+      {
+        shortName: "ST",
+        value: "California",
+      },
+      {
+        shortName: "L",
+        value: "San Francisco",
+      },
+      {
+        shortName: "O",
+        value: "Fastify",
+      },
+      {
+        shortName: "OU",
+        value: "Development Team",
+      },
     ];
     certificate.setSubject(attrs);
     certificate.setIssuer(attrs);
@@ -38,15 +56,21 @@ function buildCertificate() {
 // correctly.
 function localhostCount(_, done) {
   if (!global.context?.localhostCount) {
-    lookup("localhost", { all: true }, (error, addresses) => {
-      if (error) {
-        done(error);
-      } else {
-        global.context ??= {};
-        global.context.localhostCount = addresses.length;
-        done();
-      }
-    });
+    lookup(
+      "localhost",
+      {
+        all: true,
+      },
+      (error, addresses) => {
+        if (error) {
+          done(error);
+        } else {
+          global.context ??= {};
+          global.context.localhostCount = addresses.length;
+          done();
+        }
+      },
+    );
   }
 }
 

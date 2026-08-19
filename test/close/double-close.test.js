@@ -2,8 +2,14 @@ const { describe, test } = require("node:test");
 const { createServer } = require("../../lib");
 
 const handler = (_request, response) => {
-  response.writeHead(200, { "Content-Type": "application/json" });
-  response.end(JSON.stringify({ data: "Hello World!" }));
+  response.writeHead(200, {
+    "Content-Type": "application/json",
+  });
+  response.end(
+    JSON.stringify({
+      data: "Hello World!",
+    }),
+  );
 };
 
 describe("double close", () => {

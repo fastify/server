@@ -23,6 +23,8 @@ interface CommonServerOptions {
   maxRequestsPerSocket?: number;
   /** @default 0 */
   requestTimeout?: number;
+  /** @default false */
+  forceCloseConnections?: boolean;
 }
 
 export interface HTTPServerOptions extends CommonServerOptions {

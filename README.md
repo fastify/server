@@ -94,6 +94,14 @@ Default: 72000 (72 seconds)
 Accept any positive integer which used to update the `node:http2`
 session timeout.
 
+#### `options.forceCloseConnections`
+
+Default: false
+
+When `true` force close connections when calling `.close`.
+Only `node:http` and `node:https` support force closing using `.closeAllConnections`.
+`node:http2` will send `GOAWAY` by default and will wait for the session gracefully close.
+
 #### `requestHandler(request, response)`
 
 The `function` that used to attach `request` event for the `node:http`, `node:https` and `node:http2` server. When, using with `node:http2` it should set `allowHTTP1: true` for using the [compatibity feature](https://nodejs.org/docs/latest/api/http2.html#compatibility-api).

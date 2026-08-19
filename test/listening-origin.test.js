@@ -7,8 +7,14 @@ const fs = require("node:fs");
 const { createServer } = require("../lib");
 
 const handler = (_request, response) => {
-  response.writeHead(200, { "Content-Type": "application/json" });
-  response.end(JSON.stringify({ data: "Hello World!" }));
+  response.writeHead(200, {
+    "Content-Type": "application/json",
+  });
+  response.end(
+    JSON.stringify({
+      data: "Hello World!",
+    }),
+  );
 };
 
 describe("listeningOrigin", () => {
@@ -20,7 +26,12 @@ describe("listeningOrigin", () => {
       "lookup",
       (hostname, options, callback) => {
         if (hostname === "localhost") {
-          callback(null, [{ address: "127.0.0.1", family: 4 }]);
+          callback(null, [
+            {
+              address: "127.0.0.1",
+              family: 4,
+            },
+          ]);
         } else {
           lookup(hostname, options, callback);
         }
@@ -46,7 +57,12 @@ describe("listeningOrigin", () => {
       "lookup",
       (hostname, options, callback) => {
         if (hostname === "localhost") {
-          callback(null, [{ address: "::1", family: 6 }]);
+          callback(null, [
+            {
+              address: "::1",
+              family: 6,
+            },
+          ]);
         } else {
           lookup(hostname, options, callback);
         }
@@ -77,11 +93,15 @@ describe("listeningOrigin", () => {
     sockPath = `\\\\.\\pipe\\${(`${Math.random().toString(16)}0000000`).slice(2, 10)}-server-sock`;
   }
 
-  test("path", { skip: !sockPath }, async (t) => {
+  test("path", {
+    skip: !sockPath,
+  }, async (t) => {
     t.plan(1);
 
     const server = createServer({}, handler);
-    await server.listen({ path: sockPath });
+    await server.listen({
+      path: sockPath,
+    });
     t.assert.strictEqual(server.listeningOrigin, sockPath);
     await server.close();
   });
@@ -94,14 +114,24 @@ describe("listeningOrigin", () => {
       "lookup",
       (hostname, options, callback) => {
         if (hostname === "localhost") {
-          callback(null, [{ address: "127.0.0.1", family: 4 }]);
+          callback(null, [
+            {
+              address: "127.0.0.1",
+              family: 4,
+            },
+          ]);
         } else {
           lookup(hostname, options, callback);
         }
       },
     );
 
-    const server = createServer({ https: {} }, handler);
+    const server = createServer(
+      {
+        https: {},
+      },
+      handler,
+    );
     await server.listen();
     const address = server.address();
     t.assert.strictEqual(
@@ -120,14 +150,24 @@ describe("listeningOrigin", () => {
       "lookup",
       (hostname, options, callback) => {
         if (hostname === "localhost") {
-          callback(null, [{ address: "::1", family: 6 }]);
+          callback(null, [
+            {
+              address: "::1",
+              family: 6,
+            },
+          ]);
         } else {
           lookup(hostname, options, callback);
         }
       },
     );
 
-    const server = createServer({ https: {} }, handler);
+    const server = createServer(
+      {
+        https: {},
+      },
+      handler,
+    );
     await server.listen();
     const address = server.address();
     t.assert.strictEqual(

@@ -4,8 +4,14 @@ const { createServer } = require("../lib");
 const { once } = require("node:stream");
 
 const handler = (_request, response) => {
-  response.writeHead(200, { "Content-Type": "application/json" });
-  response.end(JSON.stringify({ data: "Hello World!" }));
+  response.writeHead(200, {
+    "Content-Type": "application/json",
+  });
+  response.end(
+    JSON.stringify({
+      data: "Hello World!",
+    }),
+  );
 };
 
 describe("abort signal", () => {
@@ -15,7 +21,9 @@ describe("abort signal", () => {
     const controller = new AbortController();
 
     const server = createServer({}, handler);
-    server.listen({ signal: controller.signal });
+    server.listen({
+      signal: controller.signal,
+    });
 
     await once(server, "fastify.listening");
     controller.abort();
@@ -37,7 +45,9 @@ describe("abort signal", () => {
       t.assert.fail("should not reach");
     });
 
-    server.listen({ signal: controller.signal });
+    server.listen({
+      signal: controller.signal,
+    });
     t.assert.strictEqual(server.listening, false);
   });
 
@@ -57,7 +67,9 @@ describe("abort signal", () => {
       t.assert.strictEqual(closeCount, 1);
     });
 
-    server.listen({ signal: controller.signal });
+    server.listen({
+      signal: controller.signal,
+    });
     controller.abort();
 
     t.assert.strictEqual(server.listening, false);
@@ -78,7 +90,9 @@ describe("abort signal", () => {
     });
 
     controller.abort();
-    server.listen({ signal: controller.signal });
+    server.listen({
+      signal: controller.signal,
+    });
 
     t.assert.strictEqual(server.listening, false);
   });
@@ -87,7 +101,11 @@ describe("abort signal", () => {
     t.plan(1);
 
     const server = createServer({}, handler);
-    server.listen({ signal: { aborted: true } });
+    server.listen({
+      signal: {
+        aborted: true,
+      },
+    });
     await once(server, "listening");
     t.assert.strictEqual(server.listening, true);
     server.close();

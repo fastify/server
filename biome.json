@@ -7,11 +7,29 @@
   },
   "files": {
     "ignoreUnknown": false,
-    "includes": ["**", "!!coverage"]
+    "includes": [
+      "**",
+      "!!coverage"
+    ]
+  },
+  "assist": {
+    "enabled": true,
+    "actions": {
+      "source": {
+        "organizeImports": "on",
+        "useSortedPackageJson": "on"
+      }
+    }
   },
   "formatter": {
     "enabled": true,
-    "indentStyle": "space"
+    "expand": "always",
+    "formatWithErrors": true,
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineEnding": "lf",
+    "lineWidth": 80,
+    "trailingNewline": true
   },
   "linter": {
     "enabled": true,
@@ -27,17 +45,11 @@
       "quoteStyle": "double"
     }
   },
-  "assist": {
-    "enabled": true,
-    "actions": {
-      "source": {
-        "organizeImports": "on"
-      }
-    }
-  },
   "overrides": [
     {
-      "includes": ["test/security.test.js"],
+      "includes": [
+        "test/security.test.js"
+      ],
       "linter": {
         "rules": {
           "suspicious": {

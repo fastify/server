@@ -9,139 +9,284 @@ describe("listen options normalize", () => {
 
   const cases = [
     {
+      actual: {
+        handle,
+      },
+      expect: {
+        handle,
+      },
       name: "{ handle }",
-      actual: { handle },
-      expect: { handle },
     },
     {
+      actual: {
+        handle,
+        path: "",
+      },
+      expect: {
+        handle,
+      },
       name: "{ handle, path }",
-      actual: { handle, path: "" },
-      expect: { handle },
     },
     {
+      actual: {
+        handle,
+        host: "127.0.0.1",
+      },
+      expect: {
+        handle,
+      },
       name: "{ handle, host }",
-      actual: { handle, host: "127.0.0.1" },
-      expect: { handle },
     },
     {
+      actual: {
+        handle,
+        host: "127.0.0.1",
+        port: 1,
+      },
+      expect: {
+        handle,
+      },
       name: "{ handle, host, port }",
-      actual: { handle, host: "127.0.0.1", port: 1 },
-      expect: { handle },
     },
     {
+      actual: {
+        path: "",
+      },
+      expect: {
+        path: "",
+      },
       name: "{ path }",
-      actual: { path: "" },
-      expect: { path: "" },
     },
     {
+      actual: {
+        host: "127.0.0.1",
+        path: "",
+      },
+      expect: {
+        path: "",
+      },
       name: "{ path, host }",
-      actual: { path: "", host: "127.0.0.1" },
-      expect: { path: "" },
     },
     {
+      actual: {
+        path: "",
+        port: 1,
+      },
+      expect: {
+        host: "localhost",
+        port: 1,
+      },
       name: "{ path, port }",
-      actual: { path: "", port: 1 },
-      expect: { host: "localhost", port: 1 },
     },
     {
+      actual: {
+        host: "127.0.0.1",
+        path: "",
+        port: 1,
+      },
+      expect: {
+        host: "127.0.0.1",
+        port: 1,
+      },
       name: "{ path, host, port }",
-      actual: { path: "", host: "127.0.0.1", port: 1 },
-      expect: { host: "127.0.0.1", port: 1 },
     },
     {
+      actual: {
+        port: 1,
+      },
+      expect: {
+        host: "localhost",
+        port: 1,
+      },
       name: "{ port }",
-      actual: { port: 1 },
-      expect: { host: "localhost", port: 1 },
     },
     {
+      actual: {
+        host: "127.0.0.1",
+      },
+      expect: {
+        host: "127.0.0.1",
+        port: 0,
+      },
       name: "{ host }",
-      actual: { host: "127.0.0.1" },
-      expect: { host: "127.0.0.1", port: 0 },
     },
     {
+      actual: {
+        host: "127.0.0.1",
+        port: 1,
+      },
+      expect: {
+        host: "127.0.0.1",
+        port: 1,
+      },
       name: "{ host, port }",
-      actual: { host: "127.0.0.1", port: 1 },
-      expect: { host: "127.0.0.1", port: 1 },
     },
     {
+      actual: {
+        backlog: 1,
+      },
+      expect: {
+        backlog: 1,
+        host: "localhost",
+        port: 0,
+      },
       name: "{ backlog: 1 }",
-      actual: { backlog: 1 },
-      expect: { host: "localhost", port: 0, backlog: 1 },
     },
     {
+      actual: {
+        backlog: true,
+      },
+      expect: {
+        host: "localhost",
+        port: 0,
+      },
       name: "{ backlog: true }",
-      actual: { backlog: true },
-      expect: { host: "localhost", port: 0 },
     },
     {
+      actual: {
+        exclusive: 1,
+      },
+      expect: {
+        host: "localhost",
+        port: 0,
+      },
       name: "{ exclusive: 1 }",
-      actual: { exclusive: 1 },
-      expect: { host: "localhost", port: 0 },
     },
     {
+      actual: {
+        exclusive: true,
+      },
+      expect: {
+        exclusive: true,
+        host: "localhost",
+        port: 0,
+      },
       name: "{ exclusive: true }",
-      actual: { exclusive: true },
-      expect: { host: "localhost", port: 0, exclusive: true },
     },
     {
+      actual: {
+        ipv6Only: 1,
+      },
+      expect: {
+        host: "localhost",
+        port: 0,
+      },
       name: "{ ipv6Only: 1 }",
-      actual: { ipv6Only: 1 },
-      expect: { host: "localhost", port: 0 },
     },
     {
+      actual: {
+        ipv6Only: true,
+      },
+      expect: {
+        host: "localhost",
+        ipv6Only: true,
+        port: 0,
+      },
       name: "{ ipv6Only: true }",
-      actual: { ipv6Only: true },
-      expect: { host: "localhost", port: 0, ipv6Only: true },
     },
     {
+      actual: {
+        reusePort: 1,
+      },
+      expect: {
+        host: "localhost",
+        port: 0,
+      },
       name: "{ reusePort: 1 }",
-      actual: { reusePort: 1 },
-      expect: { host: "localhost", port: 0 },
     },
     {
+      actual: {
+        reusePort: true,
+      },
+      expect: {
+        host: "localhost",
+        port: 0,
+        reusePort: true,
+      },
       name: "{ reusePort: true }",
-      actual: { reusePort: true },
-      expect: { host: "localhost", port: 0, reusePort: true },
     },
     {
+      actual: {
+        readableAll: 1,
+      },
+      expect: {
+        host: "localhost",
+        port: 0,
+      },
       name: "{ readableAll: 1 }",
-      actual: { readableAll: 1 },
-      expect: { host: "localhost", port: 0 },
     },
     {
+      actual: {
+        readableAll: true,
+      },
+      expect: {
+        host: "localhost",
+        port: 0,
+        readableAll: true,
+      },
       name: "{ readableAll: true }",
-      actual: { readableAll: true },
-      expect: { host: "localhost", port: 0, readableAll: true },
     },
     {
+      actual: {
+        writableAll: 1,
+      },
+      expect: {
+        host: "localhost",
+        port: 0,
+      },
       name: "{ writableAll: 1 }",
-      actual: { writableAll: 1 },
-      expect: { host: "localhost", port: 0 },
     },
     {
+      actual: {
+        writableAll: true,
+      },
+      expect: {
+        host: "localhost",
+        port: 0,
+        writableAll: true,
+      },
       name: "{ writableAll: true }",
-      actual: { writableAll: true },
-      expect: { host: "localhost", port: 0, writableAll: true },
     },
     {
+      actual: {
+        signal: 1,
+      },
+      expect: {
+        host: "localhost",
+        port: 0,
+      },
       name: "{ signal: 1 }",
-      actual: { signal: 1 },
-      expect: { host: "localhost", port: 0 },
     },
     {
+      actual: {
+        signal: {},
+      },
+      expect: {
+        host: "localhost",
+        port: 0,
+      },
       name: "{ signal: {} }",
-      actual: { signal: {} },
-      expect: { host: "localhost", port: 0 },
     },
     {
+      actual: {
+        signal: null,
+      },
+      expect: {
+        host: "localhost",
+        port: 0,
+      },
       name: "{ signal: null }",
-      actual: { signal: null },
-      expect: { host: "localhost", port: 0 },
     },
     {
+      actual: {
+        signal: abort.signal,
+      },
+      expect: {
+        host: "localhost",
+        port: 0,
+        signal: abort.signal,
+      },
       name: "{ signal }",
-      actual: { signal: abort.signal },
-      expect: { host: "localhost", port: 0, signal: abort.signal },
     },
   ];
 

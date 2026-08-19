@@ -24,11 +24,11 @@ describe("http2SessionTimeout", () => {
   test("http2s close with async-await", async () => {
     const server = createServer({
       http2: true,
-      https: {
-        key: global.context.privateKey,
-        cert: global.context.certificate,
-      },
       http2SessionTimeout: 100,
+      https: {
+        cert: global.context.certificate,
+        key: global.context.privateKey,
+      },
     });
     await server.listen();
     const session = connect(server.listeningOrigin, {
@@ -60,7 +60,12 @@ describe("http2SessionTimeout", () => {
     const session = connect(server.listeningOrigin);
     session.on("error", () => {});
     await once(session, "connect");
-    const request = session.request({ ":method": "GET", ":path": "/" }).end();
+    const request = session
+      .request({
+        ":method": "GET",
+        ":path": "/",
+      })
+      .end();
     const [headers] = await once(request, "response");
     t.assert.strictEqual(headers[":status"], 200);
     request.resume();

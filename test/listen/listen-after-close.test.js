@@ -5,8 +5,14 @@ const { withResolvers } = require("../../lib/utils");
 const { localhostCount } = require("../utils");
 
 const handler = (_request, response) => {
-  response.writeHead(200, { "Content-Type": "application/json" });
-  response.end(JSON.stringify({ data: "Hello World!" }));
+  response.writeHead(200, {
+    "Content-Type": "application/json",
+  });
+  response.end(
+    JSON.stringify({
+      data: "Hello World!",
+    }),
+  );
 };
 
 describe("listen again after close", () => {
@@ -46,22 +52,32 @@ describe("listen again after close", () => {
     const server = createServer({}, handler);
     t.assert.strictEqual(server.listening, false);
 
-    server.listen({ host: "127.0.0.1" }, (error) => {
-      t.assert.ifError(error);
-      const addresses = server.addresses();
-      t.assert.strictEqual(addresses.length, 1);
+    server.listen(
+      {
+        host: "127.0.0.1",
+      },
+      (error) => {
+        t.assert.ifError(error);
+        const addresses = server.addresses();
+        t.assert.strictEqual(addresses.length, 1);
 
-      server.close(() => {
-        t.assert.strictEqual(server.listening, false);
+        server.close(() => {
+          t.assert.strictEqual(server.listening, false);
 
-        server.listen({ host: "127.0.0.1" }, (error) => {
-          t.assert.ifError(error);
-          const addresses = server.addresses();
-          t.assert.strictEqual(addresses.length, 1);
-          server.close(resolve);
+          server.listen(
+            {
+              host: "127.0.0.1",
+            },
+            (error) => {
+              t.assert.ifError(error);
+              const addresses = server.addresses();
+              t.assert.strictEqual(addresses.length, 1);
+              server.close(resolve);
+            },
+          );
         });
-      });
-    });
+      },
+    );
 
     await promise;
   });

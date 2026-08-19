@@ -5,8 +5,14 @@ const { createServer } = require("../../lib");
 const { withResolvers } = require("../../lib/utils");
 
 const handler = (_request, response) => {
-  response.writeHead(200, { "Content-Type": "application/json" });
-  response.end(JSON.stringify({ data: "Hello World!" }));
+  response.writeHead(200, {
+    "Content-Type": "application/json",
+  });
+  response.end(
+    JSON.stringify({
+      data: "Hello World!",
+    }),
+  );
 };
 
 describe("dns", () => {
@@ -102,9 +108,18 @@ describe("dns", () => {
         // we need to alter the first call only
         if (hostname === "localhost") {
           callback(null, [
-            { address: "::1", family: 6 },
-            { address: "127.0.0.1", family: 4 },
-            { address: "0.0.0.0", family: 4 },
+            {
+              address: "::1",
+              family: 6,
+            },
+            {
+              address: "127.0.0.1",
+              family: 4,
+            },
+            {
+              address: "0.0.0.0",
+              family: 4,
+            },
           ]);
         } else {
           lookup(hostname, options, callback);

@@ -9,11 +9,38 @@ import {
 } from ".";
 
 expect(createServer({}, () => {})).type.toBe<ProxyHTTPServer>();
-expect(createServer({ https: true }, () => {})).type.toBe<ProxyHTTPSServer>();
-expect(createServer({ https: {} }, () => {})).type.toBe<ProxyHTTPSServer>();
-expect(createServer({ http2: true }, () => {})).type.toBe<ProxyHTTP2Server>();
 expect(
-  createServer({ http2: true, https: {} }, () => {}),
+  createServer(
+    {
+      https: true,
+    },
+    () => {},
+  ),
+).type.toBe<ProxyHTTPSServer>();
+expect(
+  createServer(
+    {
+      https: {},
+    },
+    () => {},
+  ),
+).type.toBe<ProxyHTTPSServer>();
+expect(
+  createServer(
+    {
+      http2: true,
+    },
+    () => {},
+  ),
+).type.toBe<ProxyHTTP2Server>();
+expect(
+  createServer(
+    {
+      http2: true,
+      https: {},
+    },
+    () => {},
+  ),
 ).type.toBe<ProxyHTTP2SecureServer>();
 
 const proxy = createServer({}, () => {});

@@ -5,8 +5,14 @@ const { withResolvers } = require("../../lib/utils");
 const { localhostCount } = require("../utils");
 
 const handler = (_request, response) => {
-  response.writeHead(200, { "Content-Type": "application/json" });
-  response.end(JSON.stringify({ data: "Hello World!" }));
+  response.writeHead(200, {
+    "Content-Type": "application/json",
+  });
+  response.end(
+    JSON.stringify({
+      data: "Hello World!",
+    }),
+  );
 };
 
 describe("host/port", () => {
@@ -99,7 +105,9 @@ describe("host/port", () => {
       resolve();
     });
 
-    server.listen({ host: "::1" });
+    server.listen({
+      host: "::1",
+    });
 
     await promise;
   });
@@ -122,7 +130,9 @@ describe("host/port", () => {
       resolve();
     });
 
-    server.listen({ host: "127.0.0.1" });
+    server.listen({
+      host: "127.0.0.1",
+    });
 
     await promise;
   });
@@ -145,7 +155,9 @@ describe("host/port", () => {
       resolve();
     });
 
-    server.listen({ host: null });
+    server.listen({
+      host: null,
+    });
 
     await promise;
   });
@@ -168,7 +180,9 @@ describe("host/port", () => {
       resolve();
     });
 
-    server.listen({ host: undefined });
+    server.listen({
+      host: undefined,
+    });
 
     await promise;
   });
@@ -187,13 +201,13 @@ describe("host/port", () => {
 
     server.listen(
       {
-        port: 0,
-        host: "localhost",
         backlog: 511,
         exclusive: false,
+        host: "localhost",
+        ipv6Only: false,
+        port: 0,
         readableAll: false,
         writableAll: false,
-        ipv6Only: false,
       },
       (error) => {
         t.assert.ifError(error);

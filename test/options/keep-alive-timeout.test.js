@@ -7,8 +7,14 @@ const { kInternalServers } = require("../../lib/symbols");
 const { localhostCount } = require("../utils");
 
 const handler = (_request, response) => {
-  response.writeHead(200, { "Content-Type": "application/json" });
-  response.end(JSON.stringify({ data: "Hello World!" }));
+  response.writeHead(200, {
+    "Content-Type": "application/json",
+  });
+  response.end(
+    JSON.stringify({
+      data: "Hello World!",
+    }),
+  );
 };
 
 describe("keepAliveTimeout", () => {
@@ -16,40 +22,52 @@ describe("keepAliveTimeout", () => {
 
   test("[]", (t) => {
     t.plan(1);
-    const server = createServer({ keepAliveTimeout: [] });
+    const server = createServer({
+      keepAliveTimeout: [],
+    });
     t.assert.strictEqual(server.keepAliveTimeout, 72000);
   });
 
   test("1.3", (t) => {
     t.plan(1);
-    const server = createServer({ keepAliveTimeout: 1.3 });
+    const server = createServer({
+      keepAliveTimeout: 1.3,
+    });
     t.assert.strictEqual(server.keepAliveTimeout, 72000);
   });
 
   test("http", (t) => {
     t.plan(1);
-    const server = createServer({ keepAliveTimeout: 1 });
+    const server = createServer({
+      keepAliveTimeout: 1,
+    });
     t.assert.strictEqual(server.keepAliveTimeout, 1);
   });
 
   test("https", (t) => {
     t.plan(1);
-    const server = createServer({ keepAliveTimeout: 2, https: {} });
+    const server = createServer({
+      https: {},
+      keepAliveTimeout: 2,
+    });
     t.assert.strictEqual(server.keepAliveTimeout, 2);
   });
 
   test("http2", (t) => {
     t.plan(1);
-    const server = createServer({ keepAliveTimeout: 3, http2: true });
+    const server = createServer({
+      http2: true,
+      keepAliveTimeout: 3,
+    });
     t.assert.notStrictEqual(server.keepAliveTimeout, 3);
   });
 
   test("http2 + https", (t) => {
     t.plan(1);
     const server = createServer({
-      keepAliveTimeout: 3,
       http2: true,
       https: {},
+      keepAliveTimeout: 3,
     });
     t.assert.notStrictEqual(server.keepAliveTimeout, 3);
   });
@@ -65,13 +83,21 @@ describe("keepAliveTimeout", () => {
       return server;
     }
 
-    const server = createServer({ keepAliveTimeout: 4, serverFactory });
+    const server = createServer({
+      keepAliveTimeout: 4,
+      serverFactory,
+    });
     t.assert.strictEqual(server.keepAliveTimeout, 5);
   });
 
   test("update all servers", async (t) => {
     t.plan(1 + global.context.localhostCount);
-    const server = createServer({ keepAliveTimeout: 1 }, handler);
+    const server = createServer(
+      {
+        keepAliveTimeout: 1,
+      },
+      handler,
+    );
     t.assert.strictEqual(server.keepAliveTimeout, 1);
     server.listen();
     await once(server, "fastify.listening");
