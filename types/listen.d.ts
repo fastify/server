@@ -1,6 +1,6 @@
 import type { AddressInfo, ListenOptions as NetListenOptions } from "node:net";
-import { ProxyServer, ServerState } from ".";
-import { RequestListener, ServerOptions } from "./server";
+import type { ProxyServer, ServerState } from ".";
+import type { RequestListener, ServerOptions } from "./server";
 
 export interface ListenOptions extends NetListenOptions {}
 
