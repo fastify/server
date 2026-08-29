@@ -1,0 +1,63 @@
+{
+  "name": "@fastify/server",
+  "version": "0.0.0",
+  "description": "A tool to create web server determine by options.",
+  "homepage": "https://github.com/fastify/server#readme",
+  "bugs": {
+    "url": "https://github.com/fastify/server/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fastify/server.git"
+  },
+  "funding": [
+    {
+      "type": "github",
+      "url": "https://github.com/sponsors/fastify"
+    },
+    {
+      "type": "opencollective",
+      "url": "https://opencollective.com/fastify"
+    }
+  ],
+  "license": "MIT",
+  "author": {
+    "name": "KaKa",
+    "email": "kaka@kakang.dev"
+  },
+  "type": "commonjs",
+  "main": "./lib/index.js",
+  "types": "./types/index.d.ts",
+  "files": [
+    "lib/**/*",
+    "types/**/*"
+  ],
+  "scripts": {
+    "lint": "npx @biomejs/biome check",
+    "lint:fix": "npx @biomejs/biome check --write",
+    "test": "npm run test:unit && npm run test:types",
+    "test:coverage": "c8 --100 npm run test:unit",
+    "test:types": "tstyche",
+    "test:unit": "node --test"
+  },
+  "c8": {
+    "reporter": [
+      "html",
+      "text"
+    ]
+  },
+  "dependencies": {
+    "@fastify/error": "^4.2.0"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.5.6",
+    "@types/node": "^26.1.2",
+    "c8": "^12.0.0",
+    "node-forge": "^1.4.0",
+    "tstyche": "^7.2.2",
+    "typescript": "^7.0.2"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

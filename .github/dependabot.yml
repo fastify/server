@@ -1,0 +1,49 @@
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    commit-message:
+      include: "scope"
+      prefix: "ci"
+    schedule:
+      interval: "monthly"
+    cooldown:
+      default-days: 7
+    allow:
+      - dependency-name: "*"
+        update-types:
+          - "version-update:semver-major"
+    open-pull-requests-limit: 10
+
+  - package-ecosystem: "npm"
+    directory: "/"
+    commit-message:
+      include: "scope"
+      prefix: "build"
+    schedule:
+      interval: "monthly"
+    cooldown:
+      default-days: 7
+    versioning-strategy: "increase-if-necessary"
+    allow:
+      - dependency-name: "*"
+        update-types:
+          - "version-update:semver-major"
+    open-pull-requests-limit: 10
+    groups:
+      # Production dependencies with breaking changes
+      dependencies:
+        dependency-type: "production"
+        patterns:
+          - "*"
+      # TypeScript related dependencies
+      dev-dependencies-typescript:
+        patterns:
+          - "@types/*"
+          - "tstyche"
+          - "typescript"
+      # Development dependencies with breaking changes
+      dev-dependencies:
+        dependency-type: "development"
+        patterns:
+          - "*"
