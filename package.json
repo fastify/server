@@ -1,6 +1,6 @@
 {
   "name": "@fastify/server",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "A tool to create web server determine by options.",
   "homepage": "https://github.com/fastify/server#readme",
   "bugs": {
